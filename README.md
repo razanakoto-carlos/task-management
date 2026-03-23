@@ -95,19 +95,15 @@ npm run dev
 ### Task
 | Method | Endpoint              | Description                          |
 |--------|-----------------------|--------------------------------------|
-| GET    | `/task`               | get all the task of user logged in   |
-| POST   | `/task`               | create a new task of user logged in  |
-| PUT    | `/task/:taskId`       | update a task task of user logged in |
-| DELETE | `/task/:taskId`       | delete a task task of user logged in |
+| GET    | `/task`               | Get all the task of user logged in   |
+| POST   | `/task`               | Create a new task of user logged in  |
+| PUT    | `/task/:taskId`       | Update a task task of user logged in |
+| DELETE | `/task/:taskId`       | Delete a task task of user logged in |
 
 ---
 ## 🔒 Authentication
 
-Protected routes require a Bearer token in the request header:
-
-```
 Authentication is handled via HTTP-Only cookies.
-Token is automatically set after login.
-```
+Token is automatically set after login and cleared on logout.
 
----
+Protected routes require an active session cookie.
