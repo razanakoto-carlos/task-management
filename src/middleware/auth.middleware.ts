@@ -1,30 +1,37 @@
 import type { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { type JwtPayload } from "jsonwebtoken";
+
+interface jwtPayload {
+  id: number;
+  name: string;
+}
+
+interface AuthRequest extends Request {
+  user?: { id: number; name: string };
+}
 
 export default async function authMiddleware(
-  req: Request,
+  req: AuthRequest,
   res: Response,
   next: NextFunction,
 ) {
   try {
-    const headers = req.headers.authorization;
+    const token = req.cookies.token;
 
-    if (!headers || !headers.startsWith("Bearer")) {
+    if (!token) {
       return res.json({ message: "Not authorized, token missing" });
     }
 
-    const token = headers.split(" ")[1];
-
     const decoded = jwt.verify(
-      token as string,
+      token,
       process.env.JWT_SECRET as string,
-    );
+    ) as JwtPayload;
 
     if (!decoded) {
       return res.json({ message: "Not authorized, invalid" });
     }
 
-    req.user = decoded;
+    req.user = { id: decoded.id, name: decoded.name };
 
     next();
   } catch (error) {

@@ -27,13 +27,13 @@ A REST API for Task Management application built with **Node.js**, **Express** a
 📁 Project Structure
 
 ```
-node-mongo-ecommerce-api/
+TASKMANAGER/
 │── prisma/             # schema postgre and migrations
 ├── src/
 │   ├── controllers/    # Route logic (user, product, cart, order)
 │   ├── middlewares/    # Auth middleware, error handler
 │   ├── routes/         # Express routers
-│   └── server.js       # App entry point
+│   └── server.ts       # App entry point
 ├── .env
 ├── .gitignore
 ├── package.json
@@ -89,7 +89,16 @@ npm run dev
 | Method | Endpoint              | Description               |
 |--------|-----------------------|---------------------------|
 | POST   | `/auth/register`      | Register a new user       |
-| POST   | `/auth/login`         | Login a user              |
+| POST   | `/auth/login`         | Login                     |
+| POST   | `/auth/logout`        | Logout                    |
+
+### Task
+| Method | Endpoint              | Description                          |
+|--------|-----------------------|--------------------------------------|
+| GET    | `/task`               | get all the task of user logged in   |
+| POST   | `/task`               | create a new task of user logged in  |
+| PUT    | `/task/:taskId`       | update a task task of user logged in |
+| DELETE | `/task/:taskId`       | delete a task task of user logged in |
 
 ---
 ## 🔒 Authentication
@@ -97,7 +106,8 @@ npm run dev
 Protected routes require a Bearer token in the request header:
 
 ```
-Authorization: Bearer <your_jwt_token>
+Authentication is handled via HTTP-Only cookies.
+Token is automatically set after login.
 ```
 
 ---
